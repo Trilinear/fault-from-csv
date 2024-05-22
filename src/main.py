@@ -47,7 +47,6 @@ if int(args.mode) == 0:
         baseName = base.split(".")[0]
         createFile(filename)
 else:
-    print("bad")
     for file in os.listdir(args.location):
         print(file)
         filename = open(args.location + file, 'r')
