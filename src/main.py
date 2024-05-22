@@ -7,10 +7,17 @@ parser.add_argument("mode", help="0 = single file, 1 = folder")
 parser.add_argument("--filename", help="csv file", default="")
 parser.add_argument("--location", nargs=1, metavar="location", help="directory location", default="")
 args = parser.parse_args()
+args.location = ''.join(args.location)
+parser.add_argument("--write_location", nargs=1, metavar="write_location", help="where you want to create at", default=args.location)
+args = parser.parse_args()
 
 args.location = ''.join(args.location)
+args.write_location = ''.join(args.write_location)
+
 print(type(args.location))
 print(args.location)
+
+
 
 # Goes through columns in our file
 def createFile(file):
@@ -29,7 +36,7 @@ def writeFile(file, northing, easting):
         if os.path.exists(baseName + '.dat'):
             os.remove(baseName + '.dat')
         # Writes Northing and Easting in scientific notation
-        with open(args.location + baseName + '.dat', 'a') as f:
+        with open(args.write_location + baseName + '.dat', 'a') as f:
             northing = [str(i).replace(",", "") for i in northing]
             easting = [str(i).replace(",", "") for i in easting]
             for index in range(len(northing)):
@@ -47,7 +54,6 @@ if int(args.mode) == 0:
         baseName = base.split(".")[0]
         createFile(filename)
 else:
-    print("bad")
     for file in os.listdir(args.location):
         print(file)
         filename = open(args.location + file, 'r')
