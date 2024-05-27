@@ -4,7 +4,7 @@ import csv
 
 parser = argparse.ArgumentParser(description="create .dat fault trace from .csv, the python script will create the files in the same folder")
 parser.add_argument("mode", help="0 = single file, 1 = folder")
-parser.add_argument("--filename", help="csv file", default="")
+parser.add_argument("--filename", help=".csv file", default="")
 parser.add_argument("--location", nargs=1, metavar="location", help="directory location", default="")
 args = parser.parse_args()
 args.location = ''.join(args.location)
