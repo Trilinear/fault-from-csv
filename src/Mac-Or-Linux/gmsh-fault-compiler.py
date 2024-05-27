@@ -46,7 +46,7 @@ def writeDAT(file, northing, easting):
 
 def writeTS(file):
     # Construct the command to run the conversion script
-    command = f"python ./Meshing/creating_geometric_models/create_fault_from_trace.py {args.write_location + file} 0 90 --dd 0.5e3 --maxdepth 2.5e4 --extend 4e3"
+    command = f"python ./Meshing/creating_geometric_models/create_fault_from_trace.py {args.write_location + '/' + file} 0 90 --dd 0.5e3 --maxdepth 2.5e4 --extend 4e3"
 
     # Run the command
     os.system(command)
