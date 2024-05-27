@@ -1,4 +1,4 @@
-solid Collayomi.stl
+solid Collayomi0.stl
 facet normal -6.942656e-01 -7.197189e-01 0.000000e+00
 outer loop
 vertex 4.3102507110e+06 5.1325635594e+05 3.5000000000e+03
@@ -53311,4 +53311,4 @@ vertex 4.2865268954e+06 5.3829052745e+05 -2.4500000000e+04
 vertex 4.2868026437e+06 5.3785317246e+05 -2.4500000000e+04
 endloop
 endfacet
-endsolid Collayomi.stl
+endsolid Collayomi0.stl

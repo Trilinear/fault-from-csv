@@ -46,26 +46,20 @@ def writeDAT(file, northing, easting):
 
 def writeTS(file):
     # Construct the command to run the conversion script
-    command = f"python ./Meshing/creating_geometric_models/create_fault_from_trace.py {args.write_location + '/' + file} 0 90 --dd 0.5e3 --maxdepth 2.5e4 --extend 4e3"
+    command = f"python3 ./Meshing/creating_geometric_models/create_fault_from_trace.py {args.write_location + '/' + file} 0 90 --dd 0.5e3 --maxdepth 2.5e4 --extend 4e3"
 
     # Run the command
     os.system(command)
 
 def createSTL(file):
         try:
-            os.system('python ./Meshing/creating_geometric_models/convertTs.py ' + file + ' ' + args.write_location + baseName + '.stl')
+            os.system('python3 ./Meshing/creating_geometric_models/convertTs.py ' + file + ' ' + args.write_location + baseName + '.stl')
             if (args.write_location != ''):
                 if os.path.exists(args.write_location + baseName + '.stl'):
                     os.remove(args.write_location + baseName + '.stl')
                 shutil.move(baseName + '.stl', args.write_location)
         except:
-            print("Error occured, file location not accessible or keyword 'python' does not work, trying python3")
-            try:
-                os.system('python ./Meshing/creating_geometric_models/convertTs.py ' + file + ' ' + args.write_location + baseName + '.stl')
-                if (args.write_location != ''):
-                    shutil.move(baseName + '.stl', args.writelocation + baseName + '.stl')
-            except:
-                print("Neither keywords python3 or python work, file location not accessible")
+            print("Error occured, file location not accessible")
 
 def cleanup():
     os.remove(args.write_location + baseName + '.dat')
