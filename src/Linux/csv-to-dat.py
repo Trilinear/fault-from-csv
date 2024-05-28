@@ -6,16 +6,14 @@ parser = argparse.ArgumentParser(description="create .dat fault trace from .csv,
 parser.add_argument("mode", help="0 = single file, 1 = folder")
 parser.add_argument("--filename", help=".csv file", default="")
 parser.add_argument("--location", nargs=1, metavar="location", help="directory location", default="")
-args = parser.parse_args()
-args.location = ''.join(args.location)
-parser.add_argument("--write_location", nargs=1, metavar="write_location", help="where you want to create at", default=args.location)
+parser.add_argument("--write_location", nargs=1, metavar="write_location", help="where you want to create at", default="")
 args = parser.parse_args()
 
-args.location = ''.join(args.location)
-args.write_location = ''.join(args.write_location)
-
-print(type(args.location))
-print(args.location)
+# '/' added to avoid scenarios where user inputs a directory with no / at the end, causes issues when it is missing
+if (args.location != ''):
+    args.location = ''.join(args.location) + '/'
+if (args.write_location != ''):
+    args.write_location = ''.join(args.write_location) + '/'
 
 
 
@@ -48,17 +46,19 @@ def writeFile(file, northing, easting):
         raise SyntaxError('Northing list is not equal to Easting list')
     return 0
 
+# For individual file mode
 if int(args.mode) == 0:
-        filename = open(args.filename, 'r')
+    base = os.path.basename(args.filename)
+    baseName = base.split(".")[0]
+    extension = base.split(".")[1]
+    createFile()
+# For entire directory mode
+elif int(args.mode) == 1:
+    for file in os.listdir(args.location):
+        args.filename = args.location + file
         base = os.path.basename(args.filename)
         baseName = base.split(".")[0]
-        createFile(filename)
-else:
-    for file in os.listdir(args.location):
-        print(file)
+        extension = base.split(".")[1]
         filename = open(args.location + file, 'r')
-        base = os.path.basename(file)
-        baseName = base.split(".")[0]
-        createFile(filename)
-
-
+        if extension == 'csv':
+            createFile(filename)
