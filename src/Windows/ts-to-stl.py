@@ -1,38 +1,41 @@
 import os
 import argparse
+import shutil
 
 parser = argparse.ArgumentParser(description="create .stl fault from .ts, the python script will create the files in the same folder")
 parser.add_argument("mode", help="0 = single file, 1 = folder", type=int)
-parser.add_argument("convertfile", help="the directory to the convertTs.py file from SeisSol Meshing repository")
-parser.add_argument("--filename", metavar = "location", help=".ts file", default="")
+parser.add_argument("--filename", metavar = "file", help=".ts file", default="")
 parser.add_argument("--location", nargs=1, metavar="location", help="directory location", default="")
+parser.add_argument("--write_location", nargs=1, metavar="write_location", help="where you want to create at", default="")
 args = parser.parse_args()
 
-args.location = ''.join(args.location)
-args.convertFile = ''.join(args.convertFile)
+if (args.location != ''):
+    args.location = ''.join(args.location) + '/'
+if (args.write_location != ''):
+    args.write_location = ''.join(args.write_location) + '/'
 
-def createFile(file):
+def createFile():
     if extension == 'ts':
         try:
-            os.system('python '+ args.convertfile + args.filename + ' ' + args.location + baseName + '.stl')
+            os.system('python ./Meshing/creating_geometric_models/convertTs.py ' + args.filename + ' ' + baseName + '.stl')
+            if (args.write_location != ''):
+                if os.path.exists(args.write_location + baseName + '.stl'):
+                    os.remove(args.write_location + baseName + '.stl')
+                shutil.move(baseName + '.stl', args.write_location)
         except:
-            print("Error occured, file location not accessible or keyword 'python' does not work, trying python3")
-            try:
-                os.system('python3 '+ args.convertfile + args.filename + ' ' + args.location + baseName + '.stl')
-            except:
-                print("Neither keywords python3 or python work, file location not accessible")
+            print("Keyword python does not work or file location not accessible")
 
-if args.mode == 0:
-    filename = open(args.filename, 'r')
+# For individual file mode
+if int(args.mode) == 0:
     base = os.path.basename(args.filename)
     baseName = base.split(".")[0]
     extension = base.split(".")[1]
-    createFile(filename)
-else:
+    createFile()
+# For entire directory mode
+elif int(args.mode) == 1:
     for file in os.listdir(args.location):
         args.filename = args.location + file
-        base = os.path.basename(file)
+        base = os.path.basename(args.filename)
         baseName = base.split(".")[0]
         extension = base.split(".")[1]
-        filename = open(args.location + file, 'r')
-        createFile(filename)
+        createFile()
