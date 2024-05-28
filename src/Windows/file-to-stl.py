@@ -55,6 +55,10 @@ def writeTS(file):
 def createSTL(file):
         try:
             os.system('python ./Meshing/creating_geometric_models/convertTs.py ' + file + ' ' + args.location + baseName + '.stl')
+            if (args.write_location != ''):
+                if os.path.exists(args.write_location + baseName + '.stl'):
+                    os.remove(args.write_location + baseName + '.stl')
+                shutil.move(baseName + '.stl', args.write_location)
         except:
             print("Error occured, file location not accessible")
 
@@ -88,9 +92,9 @@ if int(args.mode) == 0:
             createSTL(filename)
 elif int(args.mode) == 1:
     for file in os.listdir(args.location):
-        print(file)
+        args.filename = args.location + file
         filename = open(args.location + file, 'r')
-        base = os.path.basename(file)
+        base = os.path.basename(args.filename)
         baseName = base.split(".")[0]
         extension = base.split(".")[1]
         if extension == 'csv':
