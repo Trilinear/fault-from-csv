@@ -48,10 +48,11 @@ def writeFile(file, northing, easting):
 
 # For individual file mode
 if int(args.mode) == 0:
+    filename = open(args.filename, 'r')
     base = os.path.basename(args.filename)
     baseName = base.split(".")[0]
     extension = base.split(".")[1]
-    createFile()
+    createFile(filename)
 # For entire directory mode
 elif int(args.mode) == 1:
     for file in os.listdir(args.location):
