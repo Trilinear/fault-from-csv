@@ -40,8 +40,8 @@ def writeFile(file, northing, easting):
             for index in range(len(northing)):
                 northingInExponent = format(float(northing[index]), '.10e')
                 eastingInExponent = format(float(easting[index]), '.10e')
-                f.write(northingInExponent + " " + 
-                    eastingInExponent + " 0.0000000000e+00\n")
+                f.write(eastingInExponent + " " + 
+                    northingInExponent + " 0.0000000000e+00\n")
     else:
         raise SyntaxError('Northing list is not equal to Easting list')
     return 0
